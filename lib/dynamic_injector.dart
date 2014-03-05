@@ -48,8 +48,8 @@ class DynamicInjector extends Injector {
       }
       if (p.metadata.isNotEmpty) {
         return getInstanceByKey(new Key((p.type as ClassMirror).reflectedType,
-            annotations: p.metadata.map(
-                (item) => item.type.reflectedType).toList()), requestor);
+            annotations: p.metadata.map((item) => item.type.reflectedType)),
+            requestor);
       } else {
         return getInstanceByKey(new Key((p.type as ClassMirror).reflectedType),
             requestor);
@@ -74,7 +74,7 @@ class DynamicInjector extends Injector {
       try {
         if (parameter.metadata.isNotEmpty) {
           return get((parameter.type as ClassMirror).reflectedType,
-              annotations: parameter.metadata.map((item) => item.type.reflectedType).toList());
+              annotations: parameter.metadata.map((m) => m.type.reflectedType));
         } else {
           return get((parameter.type as ClassMirror).reflectedType);
         }

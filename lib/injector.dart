@@ -170,7 +170,7 @@ class Injector {
    * If there is no parent injector, an implicit binding is used. That is,
    * the token ([Type]) is instantiated.
    */
-  dynamic get(Type type, {Iterable<Type> annotations: const []}) =>
+  dynamic get(Type type, {Iterable<Type> annotations}) =>
       _getInstanceByKey(new Key(type, annotations: annotations), this);
 
   /**
