@@ -22,7 +22,7 @@ typedef dynamic CreationStrategy(
  */
 typedef bool Visibility(Injector requesting, Injector defining);
 
-typedef Object TypeFactory(factory(Type type, List<Type> annotations));
+typedef Object TypeFactory(factory(Type type, Iterable<Type> annotations));
 
 /**
  * A collection of type bindings. Once the module is passed into the injector,
@@ -73,7 +73,7 @@ class Module {
    *
    * The [value] is what actually will be injected.
    */
-  void value(Type id, value, {List<Type> withAnnotations,
+  void value(Type id, value, {Iterable<Type> withAnnotations,
     CreationStrategy creation, Visibility visibility}) {
     _dirty();
     Key key = new Key(id, annotations: withAnnotations);
@@ -87,7 +87,7 @@ class Module {
    * resulting instance will be injected. If no type is provided, then it's
    * implied that [id] should be instantiated.
    */
-  void type(Type id, {List<Type> withAnnotations, Type implementedBy,
+  void type(Type id, {Iterable<Type> withAnnotations, Type implementedBy,
     CreationStrategy creation, Visibility visibility}) {
     _dirty();
     Key key = new Key(id, annotations: withAnnotations);
@@ -101,13 +101,13 @@ class Module {
    * The [factoryFn] will be called and all its arguments will get injected.
    * The result of that function is the value that will be injected.
    */
-  void factory(Type id, FactoryFn factoryFn, {List<Type> withAnnotations,
+  void factory(Type id, FactoryFn factoryFn, {Iterable<Type> withAnnotations,
     CreationStrategy creation, Visibility visibility}) {
     _keyedFactory(new Key(id, annotations: withAnnotations), factoryFn,
         creation: creation, visibility: visibility);
   }
 
-  void _keyedFactory(Key key, FactoryFn factoryFn, { CreationStrategy creation,
+  void _keyedFactory(Key key, FactoryFn factoryFn, {CreationStrategy creation,
     Visibility visibility}) {
     _dirty();
     _providers[key] = new _FactoryProvider(factoryFn, creation, visibility);
