@@ -158,6 +158,7 @@ typedef int CompareInt(int a, int b);
 
 int compareIntAsc(int a, int b) => b.compareTo(a);
 
+@Injectable()
 class WithTypeDefDependency {
   CompareInt compare;
 
@@ -229,7 +230,6 @@ class SameEngine {
   same_name.Engine engine;
   SameEngine(this.engine);
 }
-
 
 const String STATIC_NAME = 'Static ModuleInjector';
 const String DYNAMIC_NAME = 'Dynamic ModuleInjector';
@@ -729,6 +729,17 @@ createInjectorSpec(String injectorName, ModuleFactory moduleFactory) {
         var injector = new ModuleInjector([moduleFactory()..bind(WithTypeDefDependency)]);
         injector.get(WithTypeDefDependency);
       }).toThrowWith();
+    });
+
+    iit('should inject a typedef dependencies', () {
+      var injector = new ModuleInjector([moduleFactory()
+          ..bind(CompareInt, toValue: compareIntAsc)
+          ..bind(WithTypeDefDependency)]);
+
+      WithTypeDefDependency wrapper = injector.get(WithTypeDefDependency);
+
+      expect(wrapper.compare(1, 2)).toEqual(1);
+      expect(wrapper.compare(5, 2)).toEqual(-1);
     });
 
     it('should instantiate via the default/unnamed constructor', () {

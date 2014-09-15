@@ -13,3 +13,4 @@ examples/build
 out
 build
 benchmark/generated_files/*
+/.pub
